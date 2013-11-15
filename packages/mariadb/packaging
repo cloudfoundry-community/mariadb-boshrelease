@@ -1,0 +1,15 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Available variables
+# $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
+# $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
+export HOME=/var/vcap
+
+tar xfv mariadb/mariadb-10.0.5.tar.gz
+cd mariadb-10.0.5
+cmake -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
+make
+make install
+
+exit 1
