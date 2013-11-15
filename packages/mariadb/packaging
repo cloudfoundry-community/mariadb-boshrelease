@@ -11,5 +11,3 @@ cd mariadb-10.0.5
 cmake -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
 make
 make install
-
-exit 1
