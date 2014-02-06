@@ -6,8 +6,8 @@ set -u # report the usage of uninitialized variables
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
 
-tar xfv mariadb/mariadb-10.0.5.tar.gz
-cd mariadb-10.0.5
+tar xfv mariadb/mariadb-10.0.7.tar.gz
+cd mariadb-10.0.7
 cmake -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
 make
 make install

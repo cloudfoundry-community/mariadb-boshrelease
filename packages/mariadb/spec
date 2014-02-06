@@ -2,4 +2,4 @@
 name: mariadb
 dependencies: []
 files:
-- mariadb/mariadb-10.0.5.tar.gz
+- mariadb/mariadb-10.0.7.tar.gz

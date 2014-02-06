@@ -14,3 +14,5 @@ blobs/*
 *~
 *#
 #*
+tmp
+my*.yml

@@ -1,0 +1,29 @@
+meta:
+  environment: ~
+
+update:
+  canaries: 1
+  max_in_flight: 50
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+
+jobs:
+  - name: mariadb_leader_z1
+    template: mariadb
+    instances: 0
+    resource_pool: small_z1
+    networks: (( merge ))
+  - name: mariadb_z1
+    template: mariadb
+    instances: 0
+    resource_pool: small_z1
+    networks: (( merge ))
+    update:
+      canaries: 10
+    properties:
+      mariadb:
+        master: (( merge ))
+
+networks: (( merge ))
+
+properties: {}
