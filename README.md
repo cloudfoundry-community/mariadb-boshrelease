@@ -1,4 +1,4 @@
-# BOSH Release for mariadb
+# BOSH Release for mariadb (Incomplete, Development in progress)
 
 ## Using this BOSH release
 
