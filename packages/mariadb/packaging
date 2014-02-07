@@ -1,13 +1,25 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
+#Galera clustering requires a completely separate source
+#set to false for single server mode or non galera replication
+RELEASE_REQUIRES_CLUSTERING=true
+OPTS=""
+
 # Available variables
 # $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
 
-tar xfv mariadb/mariadb-10.0.7.tar.gz
-cd mariadb-10.0.7
-cmake -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
+if(RELEASE_REQUIRES_CLUSTERING) then
+  tar xfv mariadb/mariadb-galera-5.5.34.tar.gz
+  cd mariadb-5.3.34
+  OPTS=-DWITH_WSREP=ON and -DWITH_INNODB_DISALLOW_WRITES=1.
+else
+  tar xfv mariadb/mariadb-10.0.7.tar.gz
+  cd mariadb-10.0.7
+fi
+
+cmake $OPTS -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
 make
 make install
