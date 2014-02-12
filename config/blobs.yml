@@ -1,1 +1,5 @@
---- {}
+---
+mariadb/mariadb-galera-5.5.34.tar.gz:
+  object_id: 0ce0aa7f-20a8-42d7-9f7d-6e1327caefc8
+  sha: d9e3ed1cb6aeaa03f41228c7ad1ec783e9747c4a
+  size: 45818386

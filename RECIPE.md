@@ -3,11 +3,17 @@
 ##Packaging
   * Is there a usuable binary available?  NO
   * Where is the source code located?
+
     https://downloads.mariadb.org/
-    https://downloads.mariadb.org/mariadb-galera/5.5.34/  #for clustering support
+
+    Or if you need clustering support use the galera release
+
+    https://downloads.mariadb.org/mariadb-galera/5.5.34/
+
   * What are the compilation requirements on target platform?
 
 ```bash
+    ## For the galera release you also need -DWITH_WSREP=ON and -DWITH_INNODB_DISALLOW_WRITES=1.
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/path/to/install/location
     make
     make install
@@ -18,27 +24,32 @@
 ```
 
 ##Job Creation
-  * How to run process? eg. start, stop, restart.Control Script? Helpful
-  wrapper script? ({name}_ctl)
+  **How to run process? eg. start, stop, restart.Control Script? Helpful
+  wrapper script? ({name}_ctl)**
+
   ```bash
     #Starts mysql by changing to the install directory and then calling
     #mysqld_safe
     mysql.server start
     mysql.server stop
   ```
-  * How to daemonize? mysqld_safe will daemonize automatically
-  * How to configure pidfile? (/var/vcap/sys/run/{name})
+  **How to daemonize?** mysqld_safe will daemonize automatically
+
+  **How to configure pidfile?** (/var/vcap/sys/run/{name})
   ```bash
    pid-file=/var/vcap/sys.run/mysql/your-db.pid #in my.conf
   ```
-  * How to set logs dir? (/var/vcap/sys/log/{name}) Logs not enabled by default
-  * How to storage (db) dir? (/var/vcap/store/{name})
+  **How to set logs dir?**(/var/vcap/sys/log/{name}) Logs not enabled by default
+
+  **How to storage (db)**dir? (/var/vcap/store/{name})
   ```base
   data=/var/vcap/store/mysql
   ```
-  * What do config files look like? https://gist.github.com/byllc/8871383
-  * What is parameterizable? (jobs/{name}/spec -> properties: …)
-  * How to cluster? Leader (Master) vs Followers (Slaves)
+  **What do config files look like?**https://gist.github.com/byllc/8871383
+
+  **What is parameterizable?** (jobs/{name}/spec -> properties: …)
+
+  **How to cluster? Leader (Master) vs Followers (Slaves)**
     Galera library
     https://mariadb.com/kb/en/getting-started-with-mariadb-galera-cluster/
 
@@ -50,5 +61,6 @@
     #you simply point to the master cluster ip
     wsrep_cluster_address=gcomm://xx.xx.xx.xx
   ```
+
 
 

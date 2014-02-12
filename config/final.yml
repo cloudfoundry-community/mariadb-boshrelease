@@ -1,8 +1,5 @@
 ---
 blobstore:
-  provider: s3
+  provider: local
   options:
-    bucket_name: mariadb-boshrelease
-    access_key_id: AKIAJPWUHOHV42IMTNQQ
-    secret_access_key: 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
-    encryption_key: mariadb-boshrelease
+    blobstore_path: /tmp/blobstore

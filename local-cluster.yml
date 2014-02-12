@@ -1,6 +1,6 @@
 ---
 name: mariadb-cluster
-director_uuid: 8311333a-ee63-4546-a58f-3b9439634994
+director_uuid: 51abcb52-334e-44a8-8f3d-00d2c271919e
 releases:
 - name: mariadb
   version: latest
@@ -20,8 +20,8 @@ resource_pools:
   network: mariadb-network
   size: 3
   stemcell:
-    name: bosh-stemcell
-    version: latest
+    name:  bosh-warden-boshlite-ubuntu
+    version: 24
   cloud_properties:
     name: random
 networks:

@@ -8,7 +8,14 @@ templates:
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
+  config/my.cnf.erb: config/my.cnf
 properties:
   mariadb.port:
     description: Port to access MariaDB server for SQL connections
     default: 3306
+  mariadb.production:
+    description: Use directives that have been optimized for production use
+    default: false
+  mariadb.leader_address:
+    description: where to find the replication master
+
