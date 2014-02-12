@@ -8,10 +8,11 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 export HOME=/var/vcap
 
-
 tar xfv galera/galera-25.3.3-src.tar.gz
 
 cd galera-25.3.3-src
+
+#TODO: Currently failing, Need to research SCons Dependency
 ./scripts/build.sh
 
 
