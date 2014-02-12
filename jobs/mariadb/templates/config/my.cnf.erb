@@ -59,9 +59,6 @@ key_buffer = 16M
   wsrep_cluster_address = gcomm://<%= leader_address %>
 <% end %>
 
-<% if_not_p("mariadb.leader_address") do %>
-  wsrep_new_cluster
-<% end %>
 
 wsrep_provider=/var/vcap/packages/
 binlog_format=ROW

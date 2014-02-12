@@ -13,7 +13,7 @@ tar xfv galera/galera-25.3.3-src.tar.gz
 cd galera-25.3.3-src
 
 #TODO: Currently failing, Need to research SCons Dependency
-./scripts/build.sh
+#./scripts/build.sh
 
 
 

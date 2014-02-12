@@ -1,6 +1,6 @@
 ---
 name: mariadb
 dependencies:
--galera
+- galera
 files:
 - mariadb/mariadb-galera-5.5.34.tar.gz
