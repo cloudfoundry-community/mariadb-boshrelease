@@ -1,4 +1,5 @@
 ---
 name: galera
 dependencies: []
-files: []
+files:
+- galera/galera-25.3.3-src.tar.gz
