@@ -1,0 +1,72 @@
+[client]
+#password =
+
+[mysqld]
+port      = <%= p("mariadb.port") %>
+socket    = /var/vcap/sys/run/mariadb/mariadb.sock
+
+# Where you want to have your database
+data     = /var/vcap/store/mariadb
+pid-file = /var/vcap/sys/run/mariadb/mariadb.pid
+
+# Where you have your mariadb/MariaDB source + sql/share/english
+language = /var/vcap/packages/mariadb/dir/sql/share/english
+
+[mysqld_safe]
+nice      = 0
+log-error = /var/vcap/sys/log/mariadb/mariadbd.err.log
+
+[mysqld]
+collation_server        = utf8_unicode_ci
+character_set_server    = utf8
+user      = vcap
+pid-file  = /var/vcap/sys/run/mariadb/mariadbd.pid
+socket    = /var/vcap/sys/run/mariadb/mariadbd.sock
+port      = <%= p("mariadb.port") %>
+basedir   = /usr
+datadir   = /var/vcap/store/mariadb
+tmpdir    = /tmp
+language  = /var/vcap/packages/mariadb/share/mariadb/english
+fast_index_creation = false
+
+#production optimizations taken cloudfoundry/bosh-sample-release
+key_buffer              = <%= p("mariadb.production") ? '3276M' : '16M' %>
+innodb_buffer_pool_size = <%= p("mariadb.production") ? '3276M' : '256M' %>
+max_allowed_packet      = 16M
+thread_stack            = 256K
+thread_cache_size       = <%= p("mariadb.production") ? 128 : 8 %>
+thread_concurrency      = <%= p("mariadb.production") ? 8 : 2 %>
+max_connections         = <%= p("mariadb.production") ? 512 : 16 %>
+table_cache             = <%= p("mariadb.production") ? 2048 : 256 %>
+myisam-recover          = BACKUP
+query_cache_limit       = 1M
+query_cache_size        = <%= p("mariadb.production") ? '128M' : '16M' %>
+expire_logs_days        = 10
+max_binlog_size         = 100M
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysql]
+
+[isamchk]
+key_buffer = 16M
+
+[clustering]
+<% if_p("mariadb.leader_address") do |leader_address| %>
+  wsrep_cluster_address = gcomm://<%= leader_address %>
+<% end %>
+
+<% if_not_p("mariadb.leader_address") do %>
+  wsrep_new_cluster
+<% end %>
+
+wsrep_provider=/var/vcap/packages/
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+innodb_locks_unsafe_for_binlog=1
+
+
