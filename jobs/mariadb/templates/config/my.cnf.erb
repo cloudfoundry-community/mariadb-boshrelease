@@ -58,11 +58,27 @@ max_allowed_packet = 16M
 key_buffer = 16M
 
 [clustering]
+wsrep_provider=/var/vcap/packages/galera/lib/libgalera_smm.so
+
 <% if_p("mariadb.leader_address") do |leader_address| %>
-  wsrep_cluster_address = gcomm://<%= leader_address %>
+  <% unless ENV['JOB_NAME'] == 'mariadb_leader_z1' %>
+    wsrep_cluster_address = gcomm://<%= leader_address %>
+  <% else %>
+    wsrep_cluster_address = gcomm://
+  <% end %>
 <% end %>
 
-wsrep_provider=/var/vcap/packages/galera/lib/libgalera_smm.so
+#optional settings for galera/wsrep
+#wsrep_provider_options="gcache.size=32G"
+#wsrep_cluster_name='my_galera_cluster'
+#wsrep_node_address=''
+#wsrep_node_name='node2'
+#wsrep_sst_method=xtrabackup
+#wsrep_sst_auth=root:rootpa$$
+#wsrep_node_incoming_address=''
+#wsrep_sst_donor='node3'
+#wsrep_slave_threads=16
+
 binlog_format=ROW
 
 [innodb]

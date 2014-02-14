@@ -19,4 +19,4 @@ properties:
     default: false
   mariadb.leader_address:
     description: where to find the replication master
-
+    default: 10.244.2.2
