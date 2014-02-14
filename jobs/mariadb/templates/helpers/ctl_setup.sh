@@ -64,17 +64,17 @@ then
   export PYTHONPATH=$WEBAPP_DIR/vendor/lib/python
 fi
 
-if [[ -d /var/vcap/packages/java7 ]]
-then
-  export JAVA_HOME="/var/vcap/packages/java7"
-fi
+#if [[ -d /var/vcap/packages/java7 ]]
+#then
+#  export JAVA_HOME="/var/vcap/packages/java7"
+#fi
 
 # setup CLASSPATH for all jars/ folders within packages
-export CLASSPATH=${CLASSPATH:-''} # default to empty
-for java_jar in $(ls -d /var/vcap/packages/*/*/*.jar)
-do
-  export CLASSPATH=${java_jar}:$CLASSPATH
-done
+#export CLASSPATH=${CLASSPATH:-''} # default to empty
+#for java_jar in $(ls -d /var/vcap/packages/*/*/*.jar)
+#do
+#  export CLASSPATH=${java_jar}:$CLASSPATH
+#done
 
 PIDFILE=$RUN_DIR/$JOB_NAME.pid
 

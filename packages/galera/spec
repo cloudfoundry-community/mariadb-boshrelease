@@ -1,6 +1,5 @@
 ---
 name: galera
-dependencies:
-- scons
+dependencies: []
 files:
-- galera/galera-25.3.3-src.tar.gz
+- galera/libgalera_smm.so

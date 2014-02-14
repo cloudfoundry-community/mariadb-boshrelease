@@ -6,16 +6,44 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/mariadb/helpers/ctl_setup.sh 'mariadb'
 
-export PORT=${PORT:-5000}
-export LANG=en_US.UTF-8
+LOG_DIR=/var/vcap/sys/log/
+RUN_DIR=/var/vcap/sys/run/mariadb
+PIDFILE=$RUN_DIR/mysqld.pid
+
+#we have to run some default db initialization before the databse is useable
+#when we have completed this task touch the db_initialized file
+#TOOD: find a better way to do this
+DB_INITIALIZED_FILENAME="/var/vcap/sys/run/mariadb/db_initialized"
+
+SOCKET=/var/vcap/sys/run/mariadb/mysqld.sock
+PORT=${PORT:-5000}
+LANG=en_US.UTF-8
+
+#MYUSER=vcap
+#MYSERVER=/var/vcap/packages/mariadb/support-files/mysql.server
+#MYDATA=/var/vcap/store/mariadb]
+
+#ensure config file is read from the correct location
+export MYSQL_HOME=/var/vcap/jobs/mariadb/config/
+
+#required for mysql_install_db to work
+export TMPDIR=/var/vcap/sys/tmp/
+export MYSQL_UNIX_PORT=/var/vcap/run/mariadb/mysql.sock
 
 case $1 in
 
   start)
     pid_guard $PIDFILE $JOB_NAME
 
-    #TODO: This is not correct, was changed when troubleshooting, will address when galera is sorted
-    exec /var/vcap/packages/mariadb/bin/mysqld_safe start \
+    if [ ! -f $DB_INITIALIZED_FILENAME ]; then
+      /var/vcap/packages/mariadb/scripts/mysql_install_db --user=vcap \
+      --defaults-file=${MYSQL_HOME}my.cnf                             \
+      --basedir=/var/vcap/packages/mariadb/
+
+      touch $DB_INITIALIZED_FILENAME
+    fi
+
+    exec mysqld_safe \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 
@@ -24,7 +52,8 @@ case $1 in
     ;;
 
   stop)
-    /var/vcap/packages/mariadb/bin/mysqld_safe stop \
+    /var/vcap/packages/mariadb/bin/mysqladmin shutdown
+    #$MYSERVER stop
     #kill_and_wait $PIDFILE
 
     ;;
@@ -34,4 +63,6 @@ case $1 in
     ;;
 
 esac
+
+
 exit 0

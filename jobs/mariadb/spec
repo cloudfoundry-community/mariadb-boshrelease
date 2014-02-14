@@ -1,6 +1,7 @@
 ---
 name: mariadb
 packages:
+- galera
 - mariadb
 templates:
   bin/mariadb_ctl: bin/mariadb_ctl

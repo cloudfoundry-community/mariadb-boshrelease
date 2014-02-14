@@ -20,14 +20,14 @@ log-error = /var/vcap/sys/log/mariadb/mariadbd.err.log
 collation_server        = utf8_unicode_ci
 character_set_server    = utf8
 user      = vcap
-pid-file  = /var/vcap/sys/run/mariadb/mariadbd.pid
-socket    = /var/vcap/sys/run/mariadb/mariadbd.sock
+pid-file  = /var/vcap/sys/run/mariadb/mysqld.pid
+socket    = /var/vcap/sys/run/mariadb/mysqld.sock
 port      = <%= p("mariadb.port") %>
-basedir   = /usr
+basedir   = /var/vcap/packages/mariadb
 datadir   = /var/vcap/store/mariadb
-tmpdir    = /tmp
-language  = /var/vcap/packages/mariadb/share/mariadb/english
-fast_index_creation = false
+tmpdir    = /var/vcap/sys/tmp/mariadb
+
+lc-messages-dir=/var/vcap/packages/mariadb/share/
 
 #production optimizations taken cloudfoundry/bosh-sample-release
 key_buffer              = <%= p("mariadb.production") ? '3276M' : '16M' %>
@@ -44,6 +44,9 @@ query_cache_size        = <%= p("mariadb.production") ? '128M' : '16M' %>
 expire_logs_days        = 10
 max_binlog_size         = 100M
 
+[aria]
+aria-log-dir-path=/var/vcap/store/mariadb
+
 [mysqldump]
 quick
 quote-names
@@ -59,11 +62,16 @@ key_buffer = 16M
   wsrep_cluster_address = gcomm://<%= leader_address %>
 <% end %>
 
-
-wsrep_provider=/var/vcap/packages/
+wsrep_provider=/var/vcap/packages/galera/lib/libgalera_smm.so
 binlog_format=ROW
+
+[innodb]
 default_storage_engine=InnoDB
 innodb_autoinc_lock_mode=2
 innodb_locks_unsafe_for_binlog=1
+innodb_data_file_path=ibdata1:10M:autoextend
+innodb_data_home_dir = /var/vcap/store/mariadb/
+innodb_log_group_home_dir = /var/vcap/sys/log/mariadb/
+innodb_log_arch_dir = /var/vcap/sys/log/mariadb/
 
 

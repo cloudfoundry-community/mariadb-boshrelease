@@ -9,10 +9,20 @@ export HOME=/var/vcap
 #Galera release can be run stand alone also, clustering is expected so we will
 #default to the galera release
 tar xfv mariadb/mariadb-galera-5.5.34.tar.gz
-cd mariadb-5.5.34
 
-cmake -DWITH_WSREP=ON -DWITH_INNODB_DISALLOW_WRITES=1 -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
-make
-make install
+#ensure the alternate config directory is specified
+export MYSQL_HOME=/var/vcap/jobs/mariadb/config/
 
+pushd mariadb-5.5.34
+
+ cmake -DSYSCONFDIR=${MYSQL_HOME}                          \
+       -DWITH_WSREP=ON                                     \
+       -DWITH_INNODB_DISALLOW_WRITES=1                     \
+       -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
+ make
+ make install
+
+
+
+popd
 

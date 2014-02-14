@@ -11,3 +11,15 @@ scons/scons-2.3.0.tar.gz:
   object_id: c5b0c904-daf9-4359-b880-389d8ca442ff
   sha: 728edf20047a9f8a537107dbff8d8f803fd2d5e3
   size: 599514
+galera/galera-precompiled-x64.tar.gz:
+  object_id: 4f604cad-6910-4f53-98c5-fb387cbfab1d
+  sha: 1f7d8e90a3a49575ddda01a3ff3b96e1bb9ce7cd
+  size: 1614189
+galera/libgalera_smm.so:
+  object_id: 5e00dbf1-afc2-4ba2-8956-65083f61e684
+  sha: f9afde88ac04fa38c1f70d1e63ac97cab6ff92ae
+  size: 2436552
+libgalera_smm.so:
+  object_id: e4b431f2-9ea2-481b-9fcb-3adc0ef32ae2
+  sha: f9afde88ac04fa38c1f70d1e63ac97cab6ff92ae
+  size: 2436552
